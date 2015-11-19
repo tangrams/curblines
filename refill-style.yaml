@@ -434,10 +434,22 @@ sources:
         type: TopoJSONTiles
         #url:  //localhost:8080//osm/all/{z}/{x}/{y}.topojson
         url:  //vector.mapzen.com/osm/all/{z}/{x}/{y}.topojson?api_key=vector-tiles-W2tPU-Y
-    curbs:
+    # curbs:
+    #     type: GeoJSON
+    #     url: //tangrams.github.io/curblines/curbs-9999.geojson
+    #     # url: curbs-9999.geojson
+    block:
         type: GeoJSON
-        url: //tangrams.github.io/curblines/curbs-9999.geojson
-        # url: curbs-9999.geojson
+        url: //tangrams.github.io/curblines/block.geojson
+    concrete:
+        type: GeoJSON
+        url: //tangrams.github.io/curblines/concrete.geojson
+    grass:
+        type: GeoJSON
+        url: //tangrams.github.io/curblines/grass.geojson
+    shoulder:
+        type: GeoJSON
+        url: //tangrams.github.io/curblines/shoulder.geojson
 
 cameras:
     perspective:
@@ -829,10 +841,8 @@ scene:
         color: *scene1
 
 layers:
-    curbs:
-        data: { source: curbs }
-        filter:
-            FCODE: 9999
+    block:
+        data: { source: block }
         draw:
             lines:
                 color: '#ddaa99'
@@ -841,8 +851,58 @@ layers:
                 # interactive: true
             polygons:
                 color: '#ffccaa'
-                order: 15
+                order: 16
                 extrude: 2
+    concrete:
+        data: { source: concrete }
+        draw:
+            lines:
+                color: '#ddaa99'
+                order: 40
+                width: 2px
+                # interactive: true
+            polygons:
+                color: '#ffccaa'
+                order: 16
+                extrude: 2
+    shoulder:
+        data: { source: shoulder }
+        draw:
+            lines:
+                color: '#ddaa99'
+                order: 40
+                width: 2px
+                # interactive: true
+            polygons:
+                color: '#ffccaa'
+                order: 16
+                extrude: 2
+    grass:
+        data: { source: grass }
+        draw:
+            lines:
+                color: '#009229'
+                order: 41
+                width: 2px
+                # interactive: true
+            polygons:
+                color: '#00EA41'
+                order: 16
+                extrude: 2
+    # curbs:
+    #     data: { source: curbs }
+    #     filter:
+    #         FCODE: 9999
+    #     draw:
+    #         lines:
+    #             color: '#ddaa99'
+    #             order: 40
+    #             width: 2px
+    #             # interactive: true
+    #         polygons:
+    #             color: '#ffccaa'
+    #             order: 15
+    #             extrude: 2
     # Map overlays for styling the server response (using special source layer names) for route line, find_me location gem, and search result pins
     route:
         data: { source: route }
