@@ -108,7 +108,7 @@ sources:
         url: //tangrams.github.io/curblines/shoulder.geojson
 ```
 
-Finally we also did a little more styling work. Polygons were also given a drawn to provide a fill color and extruded slightly to give the impression of a raised curb edge. A light, which was not part of the default Refill style, was also added to so that curved edges display a shadow.
+Finally we also did a little more styling work. Polygons were also given a drawn to provide a fill color and extruded slightly to give the impression of a raised curb edge. A light, which was not part of the default Refill style, was also added so that curved edges display a shadow. Road lines were toggled off.
 
 ### next?
 

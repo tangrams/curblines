@@ -434,10 +434,6 @@ sources:
         type: TopoJSONTiles
         #url:  //localhost:8080//osm/all/{z}/{x}/{y}.topojson
         url:  //vector.mapzen.com/osm/all/{z}/{x}/{y}.topojson?api_key=vector-tiles-W2tPU-Y
-    # curbs:
-    #     type: GeoJSON
-    #     url: //tangrams.github.io/curblines/curbs-9999.geojson
-    #     # url: curbs-9999.geojson
     block:
         type: GeoJSON
         url: //tangrams.github.io/curblines/block.geojson
@@ -889,20 +885,6 @@ layers:
                 color: '#00EA41'
                 order: 16
                 extrude: 2
-    # curbs:
-    #     data: { source: curbs }
-    #     filter:
-    #         FCODE: 9999
-    #     draw:
-    #         lines:
-    #             color: '#ddaa99'
-    #             order: 40
-    #             width: 2px
-    #             # interactive: true
-    #         polygons:
-    #             color: '#ffccaa'
-    #             order: 15
-    #             extrude: 2
     # Map overlays for styling the server response (using special source layer names) for route line, find_me location gem, and search result pins
     route:
         data: { source: route }
