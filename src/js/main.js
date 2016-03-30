@@ -134,7 +134,6 @@ layer.scene.subscribe({
 
     // Hide roads past zoom 16
     scene.layers['roads'].filter.$zoom = { max: 16 }
-    // scene.layers['roads'].draw.lines.visible = false
   }
 })
 
