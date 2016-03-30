@@ -40,13 +40,15 @@ const layer = Tangram.leafletLayer({
 layer.scene.subscribe({
   load: function (msg) {
     const scene = msg.config
+    const CURBS_ORDER = 290
+    const GRASS_ORDER = 291
     const PHILADELPHIA_DATA = [{
       name: 'block',
       url: 'data/philadelphia/block.geojson',
       draw: {
         lines: {
           color: '#ccc',
-          order: 40,
+          order: CURBS_ORDER,
           width: '2px',
         },
         polygons: {
@@ -61,7 +63,7 @@ layer.scene.subscribe({
       draw: {
         lines: {
           color: '#ccc',
-          order: 40,
+          order: CURBS_ORDER,
           width: '2px',
         },
         polygons: {
@@ -76,7 +78,7 @@ layer.scene.subscribe({
       draw: {
         lines: {
           color: '#009229',
-          order: 41,
+          order: GRASS_ORDER,
           width: '2px',
         },
         polygons: {
@@ -91,7 +93,7 @@ layer.scene.subscribe({
       draw: {
         lines: {
           color: '#ccc',
-          order: 40,
+          order: CURBS_ORDER,
           width: '2px',
         },
         polygons: {
@@ -112,6 +114,7 @@ layer.scene.subscribe({
 
       const layerStyle = {
         data: { source: geo.name },
+        filter: { $zoom: { min: 16 }},
         draw: geo.draw
       }
 
@@ -124,10 +127,14 @@ layer.scene.subscribe({
     }
 
     // Make earth white (simulating road space)
-    scene.layers['earth'].draw.polygons.color = 'white'
+    scene.layers['earth'].draw.polygons.color = function () {
+      if ($zoom >= 16) return 'white'
+      else return '#ddd'
+    }
 
-    // Hide roads
-    scene.layers['roads'].draw.lines.visible = false
+    // Hide roads past zoom 16
+    scene.layers['roads'].filter.$zoom = { max: 16 }
+    // scene.layers['roads'].draw.lines.visible = false
   }
 })
 
