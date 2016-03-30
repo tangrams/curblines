@@ -5,6 +5,8 @@ import L from 'leaflet'
 import Tangram from 'tangram' // via browserify-shim
 import 'leaflet-hash'
 
+const VECTOR_TILES_API_KEY = 'vector-tiles-TZJgMv2'
+
 const locations = {
   'Oakland': [37.8044, -122.2708, 15],
   'New York': [40.70531887544228, -74.00976419448853, 15],
@@ -37,17 +39,18 @@ const layer = Tangram.leafletLayer({
 // Add the curblines stuff dynamically.
 layer.scene.subscribe({
   load: function (msg) {
+    const scene = msg.config
     const PHILADELPHIA_DATA = [{
       name: 'block',
       url: 'data/philadelphia/block.geojson',
       draw: {
         lines: {
-          color: '#ddaa99',
+          color: '#ccc',
           order: 40,
           width: '2px',
         },
         polygons: {
-          color: '#ffccaa',
+          color: '#ddd',
           order: 16,
           extrude: 2
         }
@@ -57,12 +60,12 @@ layer.scene.subscribe({
       url: 'data/philadelphia/concrete.geojson',
       draw: {
         lines: {
-          color: '#ddaa99',
+          color: '#ccc',
           order: 40,
           width: '2px',
         },
         polygons: {
-          color: '#ffccaa',
+          color: '#ddd',
           order: 16,
           extrude: 2
         }
@@ -87,22 +90,24 @@ layer.scene.subscribe({
       url: 'data/philadelphia/shoulder.geojson',
       draw: {
         lines: {
-          color: '#ddaa99',
+          color: '#ccc',
           order: 40,
           width: '2px',
         },
         polygons: {
-          color: '#ffccaa',
+          color: '#ddd',
           order: 16,
           extrude: 2
         }
       }
     }]
 
+    // Use demo-specific vector tiles API key
+    scene.sources.osm.url = 'https://vector.mapzen.com/osm/all/{z}/{x}/{y}.mvt?api_key=' + VECTOR_TILES_API_KEY
+
     for (let geo of PHILADELPHIA_DATA) {
       // Tangram requires a source URL to be fully qualified, so rebuild the
       // relative reference to the URL using the current location path
-      console.log(geo)
       const url = window.location.origin + window.location.pathname + geo.url
 
       const layerStyle = {
@@ -111,12 +116,18 @@ layer.scene.subscribe({
       }
 
       // Modify the config directly, just before it renders
-      msg.config.sources[geo.name] = {
+      scene.sources[geo.name] = {
         type: 'GeoJSON',
         url: url
       }
-      msg.config.layers[geo.name] = layerStyle
+      scene.layers[geo.name] = layerStyle
     }
+
+    // Make earth white (simulating road space)
+    scene.layers['earth'].draw.polygons.color = 'white'
+
+    // Hide roads
+    scene.layers['roads'].draw.lines.visible = false
   }
 })
 
