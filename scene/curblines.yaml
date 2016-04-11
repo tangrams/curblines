@@ -1,0 +1,130 @@
+import: bubble-wrap.yaml
+
+global:
+    order:
+        curbs: 290
+        grass: 291
+
+sources:
+    # Use demo-specific vector tiles API key
+    osm:
+        url: https://vector.mapzen.com/osm/all/{z}/{x}/{y}.mvt?api_key=vector-tiles-TZJgMv2
+    # GeoJSON extracts for Philadelphia curb edges
+    roadbed:
+        type: GeoJSON
+        url: ../data/philadelphia/roadbed.geojson
+    # block:
+    #     type: GeoJSON
+    #     url: ../data/philadelphia/block.geojson
+    concrete:
+        type: GeoJSON
+        url: ../data/philadelphia/concrete.geojson
+    grass:
+        type: GeoJSON
+        url: ../data/philadelphia/grass.geojson
+    shoulder:
+        type: GeoJSON
+        url: ../data/philadelphia/shoulder.geojson
+
+layers:
+    # Make earth white, simulating road space
+    # earth:
+    #     draw:
+    #         polygons:
+    #             color: function () { if ($zoom >= 16) return 'white'; else return '#ddd'; }
+    roads:
+        # Hide roads past zoom 16
+        # But this hides everything, including paths
+        # filter:
+        #     $zoom: { max: 16 }
+
+        # Only hide certain types of roads past zoom 16.
+        highway:
+            filter:
+                $zoom: { max: 16 }
+        major_road:
+            filter:
+                $zoom: { max: 16 }
+        minor_road:
+            filter:
+                $zoom: { max: 16 }
+        service_road:
+            filter:
+                $zoom: { max: 16 }
+        track:
+            filter:
+                $zoom: { max: 16 }
+
+    roadbed:
+        data:
+            source: roadbed
+        filter:
+            $zoom: { min: 16 }
+        draw:
+            lines:
+                color: '#ccc'
+                order: 391
+                width: '2px'
+            polygons:
+                color: '#fff'
+                order: 390
+                # extrude: 2
+    # block:
+    #     data:
+    #         source: block
+    #     filter:
+    #         $zoom: { min: 16 }
+    #     draw:
+    #         lines:
+    #             color: '#ccc'
+    #             order: global.order.curbs
+    #             width: '2px'
+    #         polygons:
+    #             color: '#ddd'
+    #             order: global.order.curbs
+    #             extrude: 2
+    concrete:
+        data:
+            source: concrete
+        filter:
+            $zoom: { min: 16 }
+        draw:
+            lines:
+                color: '#ccc'
+                order: global.order.curbs
+                width: '2px'
+            polygons:
+                color: '#ddd'
+                order: global.order.curbs
+                extrude: 2
+    grass:
+        data:
+            source: grass
+        filter:
+            $zoom: { min: 16 }
+        draw:
+            dots2:
+                color: [0.600, 0.790, 0.714]
+                order: global.order.grass
+            lines:
+                color: '#b3b3b3'
+                order: global.order.grass
+                width: 2px
+            # polygons:
+            #     color: '#00ea41'
+            #     order: global.order.grass
+            #     extrude: 2
+    shoulder:
+        data:
+            source: shoulder
+        filter:
+            $zoom: { min: 16 }
+        draw:
+            lines:
+                color: '#ccc'
+                order: global.order.curbs
+                width: '2px'
+            polygons:
+                color: '#ddd'
+                order: 16
+                extrude: 2
