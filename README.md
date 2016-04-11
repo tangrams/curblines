@@ -28,7 +28,11 @@ Philadelphia curb edges were chosen only because of @louh's familiarity with the
 - from [PASDA (Pennsylvania Spatial Data Access)](http://www.pasda.psu.edu/uci/MetadataDisplay.aspx?entry=PASDA&file=PhiladelphiaCurbEdges201201.xml&dataset=169)
 - from [OpenDataPhilly](https://www.opendataphilly.org/dataset/curb-edges)
 
-The latter data source was chosen (?), specifically, the ["Curbs with Cartways Shapefile"](https://www.opendataphilly.org/dataset/curb-edges/resource/bbe7baf4-a116-469d-86cd-d124838023fb?inner_span=True) -- the GeoJSON downloads appeared to be broken. We used [ogr2ogr](http://www.gdal.org/ogr2ogr.html) to convert the shapefile to a GeoJSON format.
+The latter data source was chosen (?), specifically, the ["Curbs with Cartways Shapefile"](https://www.opendataphilly.org/dataset/curb-edges/resource/bbe7baf4-a116-469d-86cd-d124838023fb?inner_span=True) -- the GeoJSON downloads appeared to be broken. We used [ogr2ogr](http://www.gdal.org/ogr2ogr.html) to convert the shapefile to a GeoJSON format. [Something like this](http://ben.balter.com/2013/06/26/how-to-convert-shapefiles-to-geojson-for-use-on-github/):
+
+```sh
+ogr2ogr -f GeoJSON -t_srs crs:84 curbs.geojson Curbs.shp
+```
 
 Next we made a copy of the [Tangram Refill style](https://github.com/tangrams/refill-style/) and added the new curb-edge GeoJSON as a second data source:
 

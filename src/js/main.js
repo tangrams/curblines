@@ -43,21 +43,36 @@ layer.scene.subscribe({
     const CURBS_ORDER = 290
     const GRASS_ORDER = 291
     const PHILADELPHIA_DATA = [{
-      name: 'block',
-      url: 'data/philadelphia/block.geojson',
+      name: 'roadbed',
+      url: 'data/philadelphia/roadbed.geojson',
       draw: {
         lines: {
           color: '#ccc',
-          order: CURBS_ORDER,
+          order: 391,
           width: '2px',
         },
         polygons: {
-          color: '#ddd',
-          order: 16,
-          extrude: 2
+          color: '#fff',
+          order: 390,
+          // extrude: 2
         }
       }
     }, {
+    //   name: 'block',
+    //   url: 'data/philadelphia/block.geojson',
+    //   draw: {
+    //     lines: {
+    //       color: '#ccc',
+    //       order: CURBS_ORDER,
+    //       width: '2px',
+    //     },
+    //     polygons: {
+    //       color: '#ddd',
+    //       order: 16,
+    //       extrude: 2
+    //     }
+    //   }
+    // }, {
       name: 'concrete',
       url: 'data/philadelphia/concrete.geojson',
       draw: {
@@ -76,16 +91,21 @@ layer.scene.subscribe({
       name: 'grass',
       url: 'data/philadelphia/grass.geojson',
       draw: {
+        dots2: {
+          // color: '[0.600,0.790,0.714]',
+          color: '#ccc',
+          order: GRASS_ORDER,
+        },
         lines: {
-          color: '#009229',
+          color: '#b3b3b3',
           order: GRASS_ORDER,
           width: '2px',
         },
-        polygons: {
-          color: '#00ea41',
-          order: 16,
-          extrude: 2
-        }
+        // polygons: {
+        //   color: '#00ea41',
+        //   order: 16,
+        //   extrude: 2
+        // }
       }
     }, {
       name: 'shoulder',
@@ -127,17 +147,25 @@ layer.scene.subscribe({
     }
 
     // Make earth white (simulating road space)
-    scene.layers['earth'].draw.polygons.color = function () {
-      if ($zoom >= 16) return 'white'
-      else return '#ddd'
-    }
+    // scene.layers['earth'].draw.polygons.color = function () {
+    //   if ($zoom >= 16) return 'white'
+    //   else return '#ddd'
+    // }
 
     // Hide roads past zoom 16
-    scene.layers['roads'].filter.$zoom = { max: 16 }
+    // But this hides everything, including paths
+    // scene.layers['roads'].filter.$zoom = { max: 16 }
+
+    // Only hide certain types of roads past zoom 16.
+    scene.layers['roads'].highway.filter.$zoom = { max: 16 }
+    scene.layers['roads'].major_road.filter.$zoom = { max: 16 }
+    scene.layers['roads'].minor_road.filter.$zoom = { max: 16 }
+    scene.layers['roads'].service_road.filter.$zoom = { max: 16 }
+    scene.layers['roads'].track.filter.$zoom = { max: 16 }
   }
 })
 
-let scene = layer.scene;
+let scene = layer.scene
 let hash = new L.Hash(map)
 
 // Hashes update parent if iframed
