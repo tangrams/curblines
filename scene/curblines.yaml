@@ -8,7 +8,9 @@ global:
 sources:
     # Use demo-specific vector tiles API key
     osm:
-        url: https://vector.mapzen.com/osm/all/{z}/{x}/{y}.mvt?api_key=vector-tiles-TZJgMv2
+        url: https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.mvt
+        url_params:
+            api_key: vector-tiles-TZJgMv2
     # GeoJSON extracts for Philadelphia curb edges
     roadbed:
         type: GeoJSON
